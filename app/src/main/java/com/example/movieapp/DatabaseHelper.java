@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -12,11 +13,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "register.db";
     public static final String TABLE_NAME = "registeruser";
-    public static final String COL_1 = "ID";
-    public static final String COL_2 = "name";
-    public static final String COL_3 = "age";
-    public static final String COL_4 = "email";
-    public static final String COL_5 = "password";
+    public static final String id = "ID";
+    public static final String name = "name";
+    public static final String age = "age";
+    public static final String emal = "email";
+    public static final String password = "password";
 
     public DatabaseHelper(@Nullable Context context) {
 
@@ -72,5 +73,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         else
             return false;
+    }
+
+    public User profileLogin(String email){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM registeruser where email=?", new String[] {email});
+        String name ;
+        String email1;
+        User user;
+
+        if(cursor != null){
+            cursor.moveToFirst();
+        }
+
+        name = cursor.getString(1);
+        email1 = cursor.getString(3);
+
+        user = new User(name, email1);
+
+        return user ;
     }
 }

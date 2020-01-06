@@ -1,5 +1,6 @@
 package com.example.movieapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -11,17 +12,14 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.movieapp.adapter.MoviesAdapter;
-import com.example.movieapp.api.Client;
-import com.example.movieapp.api.Service;
-import com.example.movieapp.model.Movie;
-import com.example.movieapp.model.MoviesResponse;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +31,11 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private MoviesAdapter adapter;
-    private List<Movie> movieList;
+    private ApiAdapter adapter;
+    private List<MovieDetails> movieDetailsList;
     ProgressDialog pd;
     private SwipeRefreshLayout swipeContainer;
-    public static final String LOG_TAG = MoviesAdapter.class.getName();
+    public static final String LOG_TAG = ApiAdapter.class.getName();
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -54,6 +52,32 @@ public class MainActivity extends AppCompatActivity {
             public void onRefresh(){
                 initViews();
                 Toast.makeText(MainActivity.this, "Movies Refreshed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()){
+                    case R.id.nav_home:
+                        Intent intent1 = new Intent(MainActivity.this, MainActivity.class);
+                        startActivity(intent1);
+                        break;
+                    case R.id.nav_fav:
+                        Intent intent2 = new Intent(MainActivity.this, RegisterActivity.class);
+                        startActivity(intent2);
+                        break;
+                    case R.id.nav_profile:
+                        Intent intent3 = new Intent(MainActivity.this,  RegisterActivity.class);
+                        Intent intent4 = getIntent();
+                        intent3.putExtra("email", intent4.getStringExtra("email"));
+                        startActivity(intent3);
+                        break;
+                }
+
+                return false;
             }
         });
     }
@@ -77,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        movieList = new ArrayList<>();
-        adapter = new MoviesAdapter(this, movieList);
+        movieDetailsList = new ArrayList<>();
+        adapter = new ApiAdapter(this, movieDetailsList);
 
         if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             recyclerView.setLayoutManager((new GridLayoutManager(this, 1)));
@@ -101,15 +125,15 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            Client Client = new Client();
-            Service apiService =
-                    Client.getClient().create(Service.class);
+            MyClient MyClient = new MyClient();
+            ApiService apiService =
+                    MyClient.getClient().create(ApiService.class);
             Call<MoviesResponse> call = apiService.getPopularMovies(BuildConfig.THE_MOVIE_DB_API_TOKEN);
             call.enqueue(new Callback<MoviesResponse>() {
                 @Override
                 public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
-                    List<Movie> movies = response.body().getResults();
-                    recyclerView.setAdapter(new MoviesAdapter(getApplicationContext(), movies));
+                    List<MovieDetails> movieDetails = response.body().getResults();
+                    recyclerView.setAdapter(new ApiAdapter(getApplicationContext(), movieDetails));
                     recyclerView.smoothScrollToPosition(0);
                     if(swipeContainer.isRefreshing()){
                         swipeContainer.setRefreshing(false);
@@ -128,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
 
 }

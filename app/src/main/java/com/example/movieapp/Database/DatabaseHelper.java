@@ -1,13 +1,14 @@
-package com.example.movieapp;
+package com.example.movieapp.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import com.example.movieapp.User.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 

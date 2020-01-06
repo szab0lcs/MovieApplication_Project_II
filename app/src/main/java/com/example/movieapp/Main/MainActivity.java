@@ -1,4 +1,4 @@
-package com.example.movieapp;
+package com.example.movieapp.Main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +19,14 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.movieapp.Api.ApiAdapter;
+import com.example.movieapp.Api.ApiService;
+import com.example.movieapp.BuildConfig;
+import com.example.movieapp.Movie.MovieDetails;
+import com.example.movieapp.Movie.MoviesResponse;
+import com.example.movieapp.R;
+import com.example.movieapp.RegisterAndLogin.RegisterActivity;
+import com.example.movieapp.User.MyClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;

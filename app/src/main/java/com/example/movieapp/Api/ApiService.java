@@ -1,4 +1,6 @@
-package com.example.movieapp;
+package com.example.movieapp.Api;
+
+import com.example.movieapp.Movie.MoviesResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

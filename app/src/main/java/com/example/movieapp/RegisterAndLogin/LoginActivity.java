@@ -1,4 +1,4 @@
-package com.example.movieapp;
+package com.example.movieapp.RegisterAndLogin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.movieapp.Database.DatabaseHelper;
+import com.example.movieapp.Main.MainActivity;
+import com.example.movieapp.R;
 
 public class LoginActivity extends AppCompatActivity {
 

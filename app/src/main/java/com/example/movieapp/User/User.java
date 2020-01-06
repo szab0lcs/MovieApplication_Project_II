@@ -1,4 +1,4 @@
-package com.example.movieapp;
+package com.example.movieapp.User;
 public class User {
 
     private String name;

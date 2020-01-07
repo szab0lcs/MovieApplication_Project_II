@@ -22,10 +22,11 @@ import android.widget.Toast;
 import com.example.movieapp.Api.ApiAdapter;
 import com.example.movieapp.Api.ApiService;
 import com.example.movieapp.BuildConfig;
+import com.example.movieapp.Movie.DetailsActivity;
 import com.example.movieapp.Movie.MovieDetails;
 import com.example.movieapp.Movie.MoviesResponse;
+import com.example.movieapp.ProfileAndFavoriteActivity.ProfileActivity;
 import com.example.movieapp.R;
-import com.example.movieapp.RegisterAndLogin.RegisterActivity;
 import com.example.movieapp.User.MyClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -38,10 +39,10 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private ApiAdapter adapter;
+    private RecyclerView mRecyclerView;
+    private ApiAdapter mApiAdapter;
     private List<MovieDetails> movieDetailsList;
-    ProgressDialog pd;
+    public ProgressDialog mProgressDialog;
     private SwipeRefreshLayout swipeContainer;
     public static final String LOG_TAG = ApiAdapter.class.getName();
 
@@ -51,17 +52,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        init();
+
         initViews();
 
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.main_content);
+        bottomNavigation();
+
         swipeContainer.setColorSchemeColors(android.R.color.holo_orange_dark);
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
-            @Override
-            public void onRefresh(){
-                initViews();
-                Toast.makeText(MainActivity.this, "Movies Refreshed", Toast.LENGTH_SHORT).show();
-            }
-        });
+
+        loadJSON();
+    }
+
+    private void bottomNavigation() {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
@@ -74,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent1);
                         break;
                     case R.id.nav_fav:
-                        Intent intent2 = new Intent(MainActivity.this, RegisterActivity.class);
+                        Intent intent2 = new Intent(MainActivity.this, DetailsActivity.class);
                         startActivity(intent2);
                         break;
                     case R.id.nav_profile:
-                        Intent intent3 = new Intent(MainActivity.this,  RegisterActivity.class);
+                        Intent intent3 = new Intent(MainActivity.this,  ProfileActivity.class);
                         Intent intent4 = getIntent();
                         intent3.putExtra("email", intent4.getStringExtra("email"));
                         startActivity(intent3);
@@ -86,6 +88,17 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 return false;
+            }
+        });
+    }
+
+    private void init() {
+        swipeContainer = findViewById(R.id.main_content);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+            @Override
+            public void onRefresh(){
+                initViews();
+                Toast.makeText(MainActivity.this, "Movies Refreshed", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -102,34 +115,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews(){
-        pd= new ProgressDialog(this);
-        pd.setMessage("Fetching movies...");
-        pd.setCancelable(false);
-        pd.show();
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage("Fetching movies...");
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
+
+        mRecyclerView = findViewById(R.id.recycler_view);
 
         movieDetailsList = new ArrayList<>();
-        adapter = new ApiAdapter(this, movieDetailsList);
+        mApiAdapter = new ApiAdapter(this, movieDetailsList);
 
         if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            recyclerView.setLayoutManager((new GridLayoutManager(this, 1)));
+            mRecyclerView.setLayoutManager((new GridLayoutManager(this, 1)));
         }else{
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+            mRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         }
 
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mApiAdapter);
+        mApiAdapter.notifyDataSetChanged();
 
-        loadJSON();
+
     }
 
     private void loadJSON(){
         try {
             if (BuildConfig.THE_MOVIE_DB_API_TOKEN.isEmpty()){
                 Toast.makeText(getApplicationContext(), "Please obtain API KEY firstly from themoviedb.org", Toast.LENGTH_SHORT).show();
-                pd.dismiss();
+                mProgressDialog.dismiss();
                 return;
             }
 
@@ -141,12 +155,12 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
                     List<MovieDetails> movieDetails = response.body().getResults();
-                    recyclerView.setAdapter(new ApiAdapter(getApplicationContext(), movieDetails));
-                    recyclerView.smoothScrollToPosition(0);
+                    mRecyclerView.setAdapter(new ApiAdapter(getApplicationContext(), movieDetails));
+                    mRecyclerView.smoothScrollToPosition(0);
                     if(swipeContainer.isRefreshing()){
                         swipeContainer.setRefreshing(false);
                     }
-                    pd.dismiss();
+                    mProgressDialog.dismiss();
                 }
 
                 @Override

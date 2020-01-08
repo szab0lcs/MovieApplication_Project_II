@@ -29,7 +29,7 @@ public class MovieDetails implements Parcelable {
     private String originalTitle;
     @SerializedName("original_language")
     private String originalLanguage;
-    @SerializedName("title")
+    @SerializedName("titleOfMovie")
     private String title;
     @SerializedName("backdrop_path")
     private String backdropPath;

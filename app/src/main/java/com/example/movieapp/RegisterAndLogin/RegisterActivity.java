@@ -27,7 +27,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        create();
+        init();
+
         register();
 
     }
@@ -47,8 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else{
                     if(firstPassword.equals(secondPassword)){
-                        Boolean checkemail = databaseHelper.checkEmail(emailOfUser);
-                        if(checkemail==true){
+                        Boolean checkEmail = databaseHelper.checkEmail(emailOfUser);
+                        if(checkEmail==true){
                             Boolean insert = databaseHelper.addUser(fullNameOfUser, ageOfUser, emailOfUser, firstPassword);
                             if(insert==true){
                                 Toast.makeText(getApplicationContext(), "Successfully registered!", Toast.LENGTH_SHORT).show();
@@ -69,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void create() {
+    private void init() {
         databaseHelper = new DatabaseHelper(this);
         nameUser = findViewById(R.id.name);
         ageUser = findViewById(R.id.age);

@@ -47,22 +47,22 @@ public class ChangePasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Log.d("korte", passwordFirst.getText().toString());
-                Log.d("korte", passwordSecond.getText().toString());
+                if(!passwordFirst.getText().toString().isEmpty()){
 
-                if(passwordFirst.getText().toString().equals(passwordSecond.getText().toString())){
+                    if(passwordFirst.getText().toString().equals(passwordSecond.getText().toString())){
 
-                    boolean isUpdate = databaseHelper.updatePassword(email.getText().toString(), passwordFirst.getText().toString());
-                    if(!isUpdate){
+                        boolean isUpdate = databaseHelper.updatePassword(email.getText().toString(), passwordFirst.getText().toString());
+                        if(!isUpdate){
 
-                        Toast.makeText(ChangePasswordActivity.this, "Not changed password",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChangePasswordActivity.this, "Not changed password",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(ChangePasswordActivity.this, "Changed password",Toast.LENGTH_SHORT).show();
+
+                        }
+
                     }else{
-                        Toast.makeText(ChangePasswordActivity.this, "Changed password",Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(getApplicationContext(), "The passwords doesn't match", Toast.LENGTH_SHORT).show();
                     }
-
-                }else{
-                    Toast.makeText(getApplicationContext(), "The passwords doesn't match", Toast.LENGTH_SHORT).show();
                 }
             }
         });

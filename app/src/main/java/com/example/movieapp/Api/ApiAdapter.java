@@ -42,14 +42,14 @@ public class ApiAdapter extends RecyclerView.Adapter<ApiAdapter.MyViewHolder> {
 
     class MyViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView titleOfMovie, userRating;
+        private TextView titleOfMovie, shortDescription;
         private ImageView moviePoster;
 
         private MyViewHolder(View view){
             super(view);
 
             titleOfMovie = view.findViewById(R.id.title);
-            userRating =  view.findViewById(R.id.mTextViewShortDescription);
+            shortDescription =  view.findViewById(R.id.mTextViewShortDescription);
             moviePoster = view.findViewById(R.id.thumbnail);
 
             view.setOnClickListener(new View.OnClickListener(){
@@ -73,8 +73,8 @@ public class ApiAdapter extends RecyclerView.Adapter<ApiAdapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull ApiAdapter.MyViewHolder viewHolder, int i){
 
         viewHolder.titleOfMovie.setText(movieDetailsList.get(i).getOriginalTitle());
-        String vote = Double.toString(movieDetailsList.get(i).getVoteAverage());
-        viewHolder.userRating.setText(vote);
+        String description = movieDetailsList.get(i).getOverview();
+        viewHolder.shortDescription.setText(description);
 
         String posterOfMovie = "https://image.tmdb.org/t/p/w500" + movieDetailsList.get(i).getPosterPath();
 

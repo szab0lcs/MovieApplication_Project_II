@@ -25,6 +25,7 @@ import com.example.movieapp.BuildConfig;
 import com.example.movieapp.Movie.DetailsActivity;
 import com.example.movieapp.Movie.MovieDetails;
 import com.example.movieapp.Movie.MoviesResponse;
+import com.example.movieapp.ProfileAndFavoriteActivity.FavoriteActivity;
 import com.example.movieapp.ProfileAndFavoriteActivity.ProfileActivity;
 import com.example.movieapp.R;
 import com.example.movieapp.User.MyClient;
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent1);
                         break;
                     case R.id.nav_fav:
-                        Intent intent2 = new Intent(MainActivity.this, DetailsActivity.class);
+                        Intent intent2 = new Intent(MainActivity.this, FavoriteActivity.class);
                         startActivity(intent2);
                         break;
                     case R.id.nav_profile:

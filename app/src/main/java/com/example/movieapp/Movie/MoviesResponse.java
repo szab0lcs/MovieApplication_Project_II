@@ -6,10 +6,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
-
-/**
- * Created by delaroy on 5/18/17.
- */
 public class MoviesResponse implements Parcelable {
     @SerializedName("page")
     private int page;
@@ -20,44 +16,8 @@ public class MoviesResponse implements Parcelable {
     @SerializedName("total_pages")
     private int totalPages;
 
-    public int getPage() {
-        return page;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
-
     public List<MovieDetails> getResults() {
         return results;
-    }
-
-    public List<MovieDetails> getMovies() {
-        return results;
-    }
-
-    public void setResults(List<MovieDetails> results) {
-        this.results = results;
-    }
-
-    public void setMovies(List<MovieDetails> results) {
-        this.results = results;
-    }
-
-    public int getTotalResults() {
-        return totalResults;
-    }
-
-    public void setTotalResults(int totalResults) {
-        this.totalResults = totalResults;
-    }
-
-    public int getTotalPages() {
-        return totalPages;
-    }
-
-    public void setTotalPages(int totalPages) {
-        this.totalPages = totalPages;
     }
 
     @Override
@@ -71,9 +31,6 @@ public class MoviesResponse implements Parcelable {
         dest.writeTypedList(this.results);
         dest.writeInt(this.totalResults);
         dest.writeInt(this.totalPages);
-    }
-
-    public MoviesResponse() {
     }
 
     protected MoviesResponse(Parcel in) {

@@ -2,8 +2,6 @@ package com.example.movieapp.Movie;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,8 +10,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
+import com.example.movieapp.Database.DatabaseHelperFavorite;
 import com.example.movieapp.R;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -24,7 +22,10 @@ public class DetailsActivity extends AppCompatActivity {
     MovieDetails movie;
     String thumbnail, movieName, synopsis, rating, dateOfRelease;
     int movie_id;
-    private Button exit;
+    private Button exit, favorite;
+    private DatabaseHelperFavorite databaseHelperFavorite;
+    private AppCompatActivity appCompatActivity = DetailsActivity.this;
+    private MovieDetails movieDetails;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -39,6 +40,35 @@ public class DetailsActivity extends AppCompatActivity {
 
         exitFromDetails();
 
+        addToFavorite();
+
+    }
+
+    private void addToFavorite() {
+
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              saveFavorite();
+            }
+        });
+    }
+
+    private void saveFavorite() {
+        movieDetails = new MovieDetails();
+
+        Double rate = movie.getVoteAverage();
+
+
+        movieDetails.setId(movie_id);
+        movieDetails.setOriginalTitle(movieName);
+        movieDetails.setPosterPath(thumbnail);
+        movieDetails.setVoteAverage(rate);
+        movieDetails.setOverview(synopsis);
+
+        databaseHelperFavorite.addFavoriteList(movieDetails);
+
+        Toast.makeText(getApplicationContext(), "Added to favorite", Toast.LENGTH_SHORT).show();
     }
 
     private void exitFromDetails() {
@@ -89,5 +119,7 @@ public class DetailsActivity extends AppCompatActivity {
         userRating = findViewById(R.id.userRatingOfMovie);
         releaseDate = findViewById(R.id.releaseDateOfMovie);
         exit = findViewById(R.id.buttonExit);
+        favorite = findViewById(R.id.addToFavorite);
+        databaseHelperFavorite = new DatabaseHelperFavorite(appCompatActivity);
     }
 }

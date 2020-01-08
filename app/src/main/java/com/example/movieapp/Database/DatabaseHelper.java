@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String name = "name";
     public static final String age = "age";
     public static final String email = "email";
-    public static final String password = "password";
+    private static final String password = "password";
 
     public DatabaseHelper(@Nullable Context context) {
 

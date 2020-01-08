@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.movieapp.Database.DatabaseHelper;
 import com.example.movieapp.R;
 
@@ -54,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
                             if(insert==true){
                                 Toast.makeText(getApplicationContext(), "Successfully registered!", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                                finish();
                             }
                         }
                         else{

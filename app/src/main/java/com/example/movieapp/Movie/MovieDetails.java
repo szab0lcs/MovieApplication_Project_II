@@ -6,12 +6,8 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-/**
- * Created by delaroy on 5/18/17.
- */
 public class MovieDetails implements Parcelable {
     @SerializedName("poster_path")
     private String posterPath;
@@ -42,36 +38,10 @@ public class MovieDetails implements Parcelable {
     @SerializedName("vote_average")
     private Double voteAverage;
 
-    public MovieDetails(String posterPath, boolean adult, String overview, String releaseDate, List<Integer> genreIds, Integer id,
-                        String originalTitle, String originalLanguage, String title, String backdropPath, Double popularity,
-                        Integer voteCount, Boolean video, Double voteAverage) {
-        this.posterPath = posterPath;
-        this.adult = adult;
-        this.overview = overview;
-        this.releaseDate = releaseDate;
-        this.genreIds = genreIds;
-        this.id = id;
-        this.originalTitle = originalTitle;
-        this.originalLanguage = originalLanguage;
-        this.title = title;
-        this.backdropPath = backdropPath;
-        this.popularity = popularity;
-        this.voteCount = voteCount;
-        this.video = video;
-        this.voteAverage = voteAverage;
-    }
-
     public MovieDetails(){
 
     }
 
-    public static final Comparator<MovieDetails> BY_NAME_ALPHABETICAL = new Comparator<MovieDetails>() {
-        @Override
-        public int compare(MovieDetails movieDetails, MovieDetails t1) {
-
-            return movieDetails.originalTitle.compareTo(t1.originalTitle);
-        }
-    };
 
     public String getPosterPath() {
         return  posterPath;
@@ -79,14 +49,6 @@ public class MovieDetails implements Parcelable {
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
-    }
-
-    public boolean isAdult() {
-        return adult;
-    }
-
-    public void setAdult(boolean adult) {
-        this.adult = adult;
     }
 
     public String getOverview() {
@@ -99,18 +61,6 @@ public class MovieDetails implements Parcelable {
 
     public String getReleaseDate() {
         return releaseDate;
-    }
-
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public List<Integer> getGenreIds() {
-        return genreIds;
-    }
-
-    public void setGenreIds(List<Integer> genreIds) {
-        this.genreIds = genreIds;
     }
 
     public Integer getId() {
@@ -127,54 +77,6 @@ public class MovieDetails implements Parcelable {
 
     public void setOriginalTitle(String originalTitle) {
         this.originalTitle = originalTitle;
-    }
-
-    public String getOriginalLanguage() {
-        return originalLanguage;
-    }
-
-    public void setOriginalLanguage(String originalLanguage) {
-        this.originalLanguage = originalLanguage;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getBackdropPath() {
-        return backdropPath;
-    }
-
-    public void setBackdropPath(String backdropPath) {
-        this.backdropPath = backdropPath;
-    }
-
-    public Double getPopularity() {
-        return popularity;
-    }
-
-    public void setPopularity(Double popularity) {
-        this.popularity = popularity;
-    }
-
-    public Integer getVoteCount() {
-        return voteCount;
-    }
-
-    public void setVoteCount(Integer voteCount) {
-        this.voteCount = voteCount;
-    }
-
-    public Boolean getVideo() {
-        return video;
-    }
-
-    public void setVideo(Boolean video) {
-        this.video = video;
     }
 
     public Double getVoteAverage() {

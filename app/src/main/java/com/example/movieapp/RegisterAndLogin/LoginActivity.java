@@ -12,7 +12,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.movieapp.Database.DatabaseHelper;
 import com.example.movieapp.Main.MainActivity;
 import com.example.movieapp.R;

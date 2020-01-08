@@ -7,17 +7,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.movieapp.Database.DatabaseHelper;
 import com.example.movieapp.Main.MainActivity;
 import com.example.movieapp.R;
+import com.example.movieapp.RegisterAndLogin.ChangePasswordActivity;
 import com.example.movieapp.User.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private DatabaseHelper databaseHelper;
+    private Button changePasswordButton;
     private TextView nameFiled, emailField, ageField;
 
     @Override
@@ -28,8 +32,24 @@ public class ProfileActivity extends AppCompatActivity {
         init();
 
         bottomNavigation();
-        
+
         ListData();
+
+        changePassword();
+
+    }
+
+    private void changePassword() {
+
+        changePasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), ChangePasswordActivity.class);
+                intent.putExtra("Email", emailField.getText());
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -63,6 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
         nameFiled = findViewById(R.id.pTextViewNameField);
         ageField = findViewById(R.id.pTextViewAgeInputField);
         emailField = findViewById(R.id.pTextViewEmailInputField);
+        changePasswordButton = findViewById(R.id.buttonChangePassword);
     }
 
     private void ListData() {

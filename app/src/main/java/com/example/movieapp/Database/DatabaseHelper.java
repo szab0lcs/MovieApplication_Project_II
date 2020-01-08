@@ -12,12 +12,12 @@ import com.example.movieapp.User.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "register.db";
-    public static final String TABLE_NAME = "registeruser";
+    private static final String DATABASE_NAME = "register.db";
+    private static final String TABLE_NAME = "registeruser";
     public static final String id = "ID";
     public static final String name = "name";
     public static final String age = "age";
-    public static final String emal = "email";
+    public static final String email = "email";
     public static final String password = "password";
 
     public DatabaseHelper(@Nullable Context context) {
@@ -82,17 +82,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM registeruser where email=?", new String[] {email});
         String name ;
         String email1;
+        String age;
         User user;
 
         if(cursor != null){
             cursor.moveToFirst();
         }
-
+        age = cursor.getString(2);
         name = cursor.getString(1);
         email1 = cursor.getString(3);
 
-        user = new User(name, email1);
+
+        user = new User(name, email1, age);
 
         return user ;
+    }
+
+    public boolean updatePassword(String email1, String password1){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(email, email1);
+        contentValues.put(password, password1);
+
+        db.update(TABLE_NAME, contentValues, email+" = ?", new String[]{email1});
+        return true;
     }
 }

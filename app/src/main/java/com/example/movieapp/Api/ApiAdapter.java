@@ -7,15 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.movieapp.Movie.DetailsActivity;
 import com.example.movieapp.Movie.MovieDetails;
 import com.example.movieapp.R;
-import com.example.movieapp.RegisterAndLogin.RegisterActivity;
 
 import java.util.List;
 
@@ -35,51 +34,53 @@ public class ApiAdapter extends RecyclerView.Adapter<ApiAdapter.MyViewHolder> {
                 .inflate(R.layout.example_movie_card, viewGroup, false);
         return new MyViewHolder(view);
     }
-
-    @Override
-    public void onBindViewHolder(@NonNull ApiAdapter.MyViewHolder viewHolder, int i){
-        viewHolder.title.setText(movieDetailsList.get(i).getOriginalTitle());
-        String vote = Double.toString(movieDetailsList.get(i).getVoteAverage());
-        viewHolder.userrating.setText(vote);
-
-        String poster = "https://image.tmdb.org/t/p/w500" + movieDetailsList.get(i).getPosterPath();
-
-        Glide.with(mContext)
-                .load(poster)
-                .placeholder(R.drawable.load)
-                .into(viewHolder.thumbnail);
-    }
-
+    
     @Override
     public int getItemCount(){
         return movieDetailsList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView title, userrating;
-        public ImageView thumbnail;
+        private TextView titleOfMovie, userRating;
+        private ImageView moviePoster;
 
-        public MyViewHolder(View view){
+        private MyViewHolder(View view){
             super(view);
-            title = (TextView)view.findViewById(R.id.title);
-            userrating = (TextView) view.findViewById(R.id.userrating);
-            thumbnail = (ImageView)view.findViewById(R.id.thumbnail);
+
+            titleOfMovie = view.findViewById(R.id.title);
+            userRating =  view.findViewById(R.id.mTextViewShortDescription);
+            moviePoster = view.findViewById(R.id.thumbnail);
 
             view.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-                    int pos = getAdapterPosition();
-                    if(pos != RecyclerView.NO_POSITION){
-                        MovieDetails clickedDataItem = movieDetailsList.get(pos);
-                        Intent intent = new Intent(mContext, RegisterActivity.class);
+
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        MovieDetails clickedDataItem = movieDetailsList.get(position);
+                        Intent intent = new Intent(mContext, DetailsActivity.class);
                         intent.putExtra("movies", clickedDataItem );
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(intent);
-                        Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getOriginalTitle(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ApiAdapter.MyViewHolder viewHolder, int i){
+
+        viewHolder.titleOfMovie.setText(movieDetailsList.get(i).getOriginalTitle());
+        String vote = Double.toString(movieDetailsList.get(i).getVoteAverage());
+        viewHolder.userRating.setText(vote);
+
+        String posterOfMovie = "https://image.tmdb.org/t/p/w500" + movieDetailsList.get(i).getPosterPath();
+
+        Glide.with(mContext)
+                .load(posterOfMovie)
+                .placeholder(R.drawable.load)
+                .into(viewHolder.moviePoster);
     }
 }

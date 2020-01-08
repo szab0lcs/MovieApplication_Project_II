@@ -12,7 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Movie.DetailsActivity"></activity>
+        <activity android:name=".RegisterAndLogin.ChangePasswordActivity"></activity>
+        <activity android:name=".ProfileAndFavoriteActivity.FavoriteActivity" />
+        <activity android:name=".ProfileAndFavoriteActivity.ProfileActivity" />
+        <activity android:name=".Movie.DetailsActivity" />
         <activity android:name=".RegisterAndLogin.RegisterActivity" />
         <activity android:name=".Main.MainActivity" />
         <activity android:name=".RegisterAndLogin.LoginActivity">

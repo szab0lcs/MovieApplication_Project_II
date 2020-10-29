@@ -74,17 +74,24 @@ public class MainActivity extends AppCompatActivity {
                 switch(item.getItemId()){
                     case R.id.nav_home:
                         Intent intent1 = new Intent(MainActivity.this, MainActivity.class);
+                        Intent intent6 = getIntent();
+                        intent1.putExtra("email", intent6.getStringExtra("email"));
                         startActivity(intent1);
+                        finish();
                         break;
                     case R.id.nav_fav:
                         Intent intent2 = new Intent(MainActivity.this, FavoriteActivity.class);
+                        Intent intent5 = getIntent();
+                        intent2.putExtra("email", intent5.getStringExtra("email"));
                         startActivity(intent2);
+                        finish();
                         break;
                     case R.id.nav_profile:
                         Intent intent3 = new Intent(MainActivity.this,  ProfileActivity.class);
                         Intent intent4 = getIntent();
                         intent3.putExtra("email", intent4.getStringExtra("email"));
                         startActivity(intent3);
+                        finish();
                         break;
                 }
 
